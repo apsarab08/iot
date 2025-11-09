@@ -1,5 +1,4 @@
 
-
 const int sensorPin = A0;
 const int ledPin = 9;
 const int THRESHOLD = 100; 
@@ -10,16 +9,16 @@ void setup() {
 }
 
 void loop() {
-  int sensorValue = analogRead(sensorPin); // 0..1023
+  int sensorValue = analogRead(sensorPin); 
   Serial.print("LDR value: ");
   Serial.println(sensorValue);
 
   if (sensorValue < THRESHOLD) {
-    // it's dark -> turn LED ON
+    
     digitalWrite(ledPin, HIGH);
     Serial.println("LED ON");
   } else {
-    // bright -> turn LED OFF
+   
     digitalWrite(ledPin, LOW);
     Serial.println("LED OFF");
   }
