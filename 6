@@ -1,0 +1,42 @@
+#include "DHT.h"
+
+#define DHTPIN 2       // Data pin connected to D2
+#define DHTTYPE DHT22  // DHT22 (AM2302)
+
+#define LED_DRY 8
+#define LED_WET 9
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+
+  pinMode(LED_DRY, OUTPUT);
+  pinMode(LED_WET, OUTPUT);
+}
+
+void loop() {
+  float humidity = dht.readHumidity();
+
+  if (isnan(humidity)) {
+    Serial.println("Failed to read from DHT22 sensor!");
+    return;
+  }
+
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.println(" %");
+
+  if (humidity < 60.0) {  
+    Serial.println("Waste classified as: DRY");
+    digitalWrite(LED_DRY, HIGH);
+    digitalWrite(LED_WET, LOW);
+  } else {
+    Serial.println("Waste classified as: WET");
+    digitalWrite(LED_WET, HIGH);
+    digitalWrite(LED_DRY, LOW);
+  }
+
+  delay(2000);
+}
