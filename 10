@@ -1,0 +1,38 @@
+// --- SENDER CODE ---
+void setup() {
+  // Begin UART communication at 9600 baud rate
+  Serial.begin(9600);
+}
+void loop() {
+  // Send the string through the TX pin (Pin 1)
+  Serial.print("Hello UART");
+  Serial.print("\n"); // Add a newline character to mark the end of the message
+  
+  delay(1000); // Wait 1 second before sending again
+}
+Code for Arduino 2 (receiver)
+// --- RECEIVER CODE ---
+String incomingData = "";
+void setup() {
+  // Must match the Sender's baud rate (9600)
+  Serial.begin(9600);
+  // Turn on built-in LED for visual check
+  pinMode(13, OUTPUT); 
+}
+void loop() {
+  // Check if data has arrived in the buffer
+  if (Serial.available() > 0) {
+    
+    // Read the incoming data until the newline character '\n'
+    incomingData = Serial.readStringUntil('\n');
+    
+    // Flash the LED on Pin 13 to show activity
+    digitalWrite(13, HIGH);
+    delay(100);
+    digitalWrite(13, LOW);
+    
+    // Print the data to the Serial Monitor (So you can see it)
+    Serial.print("Message Received: ");
+    Serial.println(incomingData);
+  }
+}
