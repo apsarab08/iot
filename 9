@@ -1,0 +1,73 @@
+#include <LiquidCrystal.h>
+
+// Initialize LCD pins
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+// TMP36 sensor pin
+const int tempSensorPin = A0;
+
+// Variables
+float temperature;
+int sensorValue;
+
+void setup() {
+  // Initialize LCD
+  lcd.begin(16, 2);
+  analogReference(DEFAULT);
+  
+  lcd.print("TMP36 Weather");
+  lcd.setCursor(0, 1);
+  lcd.print("  Station v1.0");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  readTemperature();
+  displayRotatingInfo();
+  delay(3000);
+}
+
+
+void readTemperature() {
+  sensorValue = analogRead(tempSensorPin);
+  float voltage = sensorValue * (5.0 / 1024.0);
+  temperature = (voltage - 0.5) * 100;
+}
+
+void displayRotatingInfo() {
+  static int displayMode = 0;
+  
+  lcd.clear();
+  
+  switch(displayMode) {
+    case 0:
+      // Display Celsius with raw value
+      lcd.setCursor(0, 0);
+      lcd.print("Temperature:");
+      lcd.setCursor(0, 1);
+      lcd.print(temperature, 1);
+      lcd.print(" C");
+      break;
+case 1:
+      // Display Fahrenheit
+      lcd.setCursor(0, 0);
+      lcd.print("Temperature:");
+      lcd.setCursor(0, 1);
+      lcd.print((temperature * 9.0/5.0) + 32.0, 1);
+      lcd.print(" F");
+      break;
+      
+    case 2:
+      // Display sensor data
+      lcd.setCursor(0, 0);
+      lcd.print("Analog Value:");
+      lcd.setCursor(0, 1);
+      lcd.print(sensorValue);
+      lcd.print(" / 1024");
+      break;
+  }
+  
+  displayMode = (displayMode + 1) % 3;
+}
+
