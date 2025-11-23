@@ -1,0 +1,58 @@
+// pH Value Reader for Milk, Lime, and Water using Arduino (Tinkercad Simulation)
+int sensorPin = A0;      // Analog input pin for pH sensor (simulated using potentiometer)
+float sensorValue = 0;   
+float pHValue = 0;
+
+void setup()
+{
+  Serial.begin(9600);
+  Serial.println("pH Value Detection of Substances");
+  Serial.println("--------------------------------");
+}
+
+void loop()
+{
+  // Read simulated sensor value
+  sensorValue = analogRead(sensorPin);
+  
+  // Convert the analog value (0–1023) into pH range (0–14)
+  pHValue = (sensorValue * 14.0) / 1023.0;
+  
+  Serial.print("Measured pH Value: ");
+  Serial.println(pHValue);
+
+  // Identify the substance based on typical pH ranges
+  if (pHValue >= 6.4 && pHValue <= 6.8)
+ {
+    Serial.println("Substance: Milk");
+  }
+  else if (pHValue >= 6.9 && pHValue<= 7.1)
+ {
+    Serial.println("Substance: Water");
+ } 
+  else if (pHValue >= 9.0 && pHValue<=10.0)
+ {
+    Serial.println("Substance: Lime Water");
+ } 
+  
+  else
+ {
+    Serial.println("Unknown substance or out of range");
+  }
+
+ // Determine the nature of the substance
+  if (pHValue < 7.0)
+ {
+    Serial.println("Nature: Acidic");
+  } 
+  else if (pHValue == 7.0)
+ {
+    Serial.println("Nature: Neutral");
+  } 
+  else
+ {
+    Serial.println("Nature: Basic (Alkaline)");
+  }
+  Serial.println("--------------------------------");
+  delay(3000);  // Wait 3 seconds before next reading
+}
