@@ -1,0 +1,46 @@
+int distance=0;
+int red=4;
+int blue=5;
+ int  green=6;
+long readUltrasonicDistance(int triggerPin,int echoPin)
+{
+  pinMode(triggerPin,OUTPUT);
+  digitalWrite(triggerPin,LOW);
+  delayMicroseconds(2);
+  digitalWrite(triggerPin,HIGH);
+   delayMicroseconds(10);
+  digitalWrite(triggerPin,LOW);
+  pinMode(echoPin,INPUT);
+    return pulseIn(echoPin,HIGH);
+}
+void setup()
+{
+  pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+}
+void loop()
+{
+   distance=0.01723*readUltrasonicDistance(10,11);
+  if (distance>=200)
+  {
+    digitalWrite(red,HIGH);
+    digitalWrite(blue,LOW);
+    digitalWrite(green,LOW);
+    delay(2000);
+  }
+  if (distance>100 && distance<200)
+  {
+    digitalWrite(red,LOW);
+    digitalWrite(blue,HIGH);
+    digitalWrite(green,LOW);
+    delay(2000);
+  }
+  if(distance<=100)
+  {
+    digitalWrite(red,LOW);
+    digitalWrite(blue,LOW);
+    digitalWrite(green,HIGH);
+    delay(2000);
+  }
+}
